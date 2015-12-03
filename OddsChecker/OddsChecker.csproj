@@ -74,7 +74,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Enum\Class1.cs" />
     <Compile Include="Model\Event.cs" />
     <Compile Include="Model\EventGroup.cs" />
     <Compile Include="Model\OddChecker.cs" />
