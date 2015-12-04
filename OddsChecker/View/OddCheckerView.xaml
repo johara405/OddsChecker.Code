@@ -42,16 +42,16 @@
                 <Label Foreground="{StaticResource GrayText}" x:Name="Status" Margin="54,0,430,-4" Content="{Binding OC.Status}"  BorderThickness="1" Grid.Row="1" Height="61" VerticalAlignment="Bottom"/>
                 <ProgressBar Margin="10,0,10,76" Maximum="100" Minimum="0" Value="{Binding OC.ProgressPercentage}" Visibility="{Binding OC.Processing}" BorderThickness="1" Height="6" VerticalAlignment="Bottom" Grid.Row="1"/>
                 <Label  Foreground="{StaticResource GrayText}" Content="File List URL" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="14"  Height="29" Grid.RowSpan="2"/>
-                <Controls:ToggleSwitch IsEnabled="{Binding OC.Idle}" Header="" IsChecked="{Binding OC.UpdateAutomatically}" Margin="677,-20,0,700" FontSize="12" Grid.RowSpan="2" FontFamily="Segoe UI" HorizontalAlignment="Left" Width="88" />
+                <Controls:ToggleSwitch IsEnabled="{Binding OC.Idle}" Header="" IsChecked="{Binding OC.UpdateAutomatically}" Margin="683,-19,0,0" FontSize="12" FontFamily="Segoe UI" HorizontalAlignment="Left" Width="92" Grid.RowSpan="2" Height="56" VerticalAlignment="Top" />
                 <Controls:ProgressRing IsActive="{Binding OC.Downloading}" Margin="11,0,0,28" Height="30" Width="30" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
                 <Label Foreground="{StaticResource GrayText}" Content="Automatic Updates" HorizontalAlignment="Left" Margin="539,10,0,0" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="14" Height="28"/>
                 <Button Style="{StaticResource AccentedSquareButtonStyle}" x:Name="StopButton" Visibility="{Binding OC.Processing}"  Content="stop" HorizontalAlignment="Left" Margin="432,10,0,0" VerticalAlignment="Top"  Click="StopButton_Click" Width="84" Height="28" />
-                <Controls:ToggleSwitch IsEnabled="{Binding OC.Idle}" Header="" IsChecked="{Binding OC.OnlineMode}" Margin="883,-21,0,701" FontSize="12" Grid.RowSpan="2" FontFamily="Segoe UI" HorizontalAlignment="Left" Width="88" />
+                <Controls:ToggleSwitch VerticalAlignment="Top" IsEnabled="{Binding OC.Idle}" Header="" IsChecked="{Binding OC.OnlineMode}" Margin="896,-21,0,0" FontSize="12" FontFamily="Segoe UI" HorizontalAlignment="Left" Width="91" Grid.RowSpan="2" Height="64" />
                 <Label Foreground="{StaticResource GrayText}" Content="Online Mode" HorizontalAlignment="Left" Margin="794,10,0,0" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="14" Height="28"/>
             </Grid>
         </TabItem>
-        <TabItem Header="Check Odds" Margin="0,0,-8,0">
-            <Grid Margin="0,0,-9,-13">
+        <TabItem Header="Check Odds">
+            <Grid >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="139*"/>
                     <RowDefinition Height="94*"/>
@@ -61,14 +61,14 @@
                 <Grid.ColumnDefinitions>
 
                     <ColumnDefinition Width="0*"/>
-                    <ColumnDefinition Width="260*"/>
+                    <ColumnDefinition Width="260"/>
                     <ColumnDefinition Width="951*"/>
                     <ColumnDefinition Width="5*"/>
 
                 </Grid.ColumnDefinitions>
 
 
-                <Grid Margin="10,10,10,5" Background="{StaticResource BlackBG}" Grid.RowSpan="2" Grid.Column="2" >
+                <Grid Margin="5,40,10,5" Background="{StaticResource BlackBG}" Grid.RowSpan="2" Grid.Column="2" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="203*"/>
 
@@ -106,14 +106,14 @@
                 </Grid>
 
                 <ComboBox ItemsSource="{Binding OC.Coupons, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedCoupon, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" Margin="7,39,8,0" VerticalAlignment="Top" Height="26" Grid.ColumnSpan="2"/>
-                <ComboBox ItemsSource="{Binding SelectedCoupon.EventGroups, UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay}" SelectedItem="{Binding SelectedEventGroup, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Name" SelectedIndex="0" Margin="7,99,8,0" VerticalAlignment="Top" Height="26" Grid.ColumnSpan="2"/>
-                <ComboBox ItemsSource="{Binding SelectedEventGroup.Events, UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedEvent, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" Margin="7,159,8,0" VerticalAlignment="Top" Height="26" Grid.ColumnSpan="2"/>
+                <ComboBox ItemsSource="{Binding SelectedCoupon.EventGroups, UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay}" SelectedItem="{Binding SelectedEventGroup, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Name" SelectedIndex="0" Margin="7,108,8,0" VerticalAlignment="Top" Height="26" Grid.ColumnSpan="2"/>
+                <ComboBox ItemsSource="{Binding SelectedEventGroup.Events, UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedEvent, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" Margin="7,176,8,0" VerticalAlignment="Top" Height="26" Grid.ColumnSpan="2"/>
                 <Label Content="Sport Coupon" Foreground="{StaticResource GrayText}" HorizontalAlignment="Left" Margin="7,10,0,0" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="14"  Height="29" Width="103" Grid.ColumnSpan="2"/>
-                <Label Content="Event Group" Foreground="{StaticResource GrayText}" HorizontalAlignment="Left" Margin="7,70,0,0" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="14"  Height="29" Width="94" Grid.ColumnSpan="2"/>
-                <Label Content="Event" Foreground="{StaticResource GrayText}" HorizontalAlignment="Left" Margin="7,130,0,0" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="14"  Height="29" Width="64" Grid.ColumnSpan="2"/>
-                <Label Foreground="{StaticResource GrayText}"  x:Name="Status2" Margin="10,0,2,5" Content="{Binding OC.Status}"  BorderThickness="1" FontSize="10" Height="31" VerticalAlignment="Bottom" Grid.Row="1" Grid.ColumnSpan="3"/>
-                <Label Content="Event Info" Foreground="{StaticResource GrayText}" HorizontalAlignment="Left" Margin="7,190,0,0" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="14"  Height="29" Width="85" Grid.ColumnSpan="2"/>
-                <Grid   Background="{StaticResource BlackBG}" Grid.ColumnSpan="2" Margin="10,219,8,41" Grid.RowSpan="2">
+                <Label Content="Event Group" Foreground="{StaticResource GrayText}" HorizontalAlignment="Left" Margin="7,79,0,0" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="14"  Height="29" Width="94" Grid.ColumnSpan="2"/>
+                <Label Content="Event" Foreground="{StaticResource GrayText}" HorizontalAlignment="Left" Margin="7,147,0,0" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="14"  Height="29" Width="64" Grid.ColumnSpan="2"/>
+                <Label Foreground="{StaticResource GrayText}"  x:Name="Status2" Margin="0,11,10,0" Content="{Binding OC.Status}"  BorderThickness="1" FontSize="10" Grid.Column="2" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Width="689" Height="24" VerticalAlignment="Top"/>
+                <Label Content="Event Info" Foreground="{StaticResource GrayText}" HorizontalAlignment="Left" Margin="10,210,0,0" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="14"  Height="29" Width="85" Grid.ColumnSpan="2"/>
+                <Grid   Background="{StaticResource BlackBG}" Grid.ColumnSpan="2" Margin="10,239,8,5" Grid.RowSpan="2">
                     <ListBox  ItemsSource="{Binding SelectedEvent.Results}" Background="{StaticResource BlackBG}" Margin="0,10">
                         <ListBox.ItemTemplate>
                             <DataTemplate >
@@ -129,6 +129,7 @@
 
             </Grid>
         </TabItem>
+        <TabItem Header="Settings"></TabItem>
 
 
     </TabControl>

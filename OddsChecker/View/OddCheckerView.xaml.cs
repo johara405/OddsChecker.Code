@@ -39,7 +39,7 @@ namespace OddsChecker
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
-            var thread = new Thread(new ThreadStart(this.od.Stop));
+            var thread = new Thread(new ThreadStart(this.od.StopProcess));
             thread.Start(); 
         }
 
