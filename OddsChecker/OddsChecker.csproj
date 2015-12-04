@@ -77,6 +77,7 @@
     <Compile Include="Model\Event.cs" />
     <Compile Include="Model\EventGroup.cs" />
     <Compile Include="Model\OddChecker.cs" />
+    <Compile Include="Model\Result.cs" />
     <Compile Include="ViewModel\OddCheckerViewModel.cs" />
     <Compile Include="Model\Selection.cs" />
     <Compile Include="Model\SportCoupon.cs" />

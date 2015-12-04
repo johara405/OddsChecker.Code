@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        Title="BET BYRNE | ODDS CHECKER" Height="850.456" Width="1004.045">
+        Title="BETTING ODDS and RESULTS CHECKER" Height="790.956" Width="1230.045">
 
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
@@ -20,7 +20,7 @@
         <SolidColorBrush Color="#474747" x:Key="DarkerGray" />
 
     </Window.Resources>
-    <TabControl Margin="8,8,-8,-12">
+    <TabControl Margin="8,8,2,12">
         <TabItem Header="Update Data"  >
             <Grid>
                 <Grid.RowDefinitions>
@@ -51,45 +51,81 @@
             </Grid>
         </TabItem>
         <TabItem Header="Check Odds" Margin="0,0,-8,0">
-            <Grid>
+            <Grid Margin="0,0,-9,-13">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="139*"/>
+                    <RowDefinition Height="94*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="955*"/>
-                    <ColumnDefinition Width="37*"/>
+
+                    <ColumnDefinition Width="0*"/>
+                    <ColumnDefinition Width="260*"/>
+                    <ColumnDefinition Width="951*"/>
+                    <ColumnDefinition Width="5*"/>
+
                 </Grid.ColumnDefinitions>
-                <Grid Margin="232,10,35,30" Background="{StaticResource BlackBG}" Grid.ColumnSpan="2" >
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="362,20,361,0">
+
+
+                <Grid Margin="10,10,10,5" Background="{StaticResource BlackBG}" Grid.RowSpan="2" Grid.Column="2" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="203*"/>
+
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="0,20,0,0">
                         <TextBlock  HorizontalAlignment="Center"  FontFamily="Bebas" FontSize="60" Foreground="WhiteSmoke" Text="{Binding SelectedEventGroup.Name}"/>
                         <TextBlock   HorizontalAlignment="Center" Margin="0,8,0,0" FontSize="20" Foreground="{StaticResource LighterBlueFG}" Text="{Binding SelectedEvent.Name}"/>
                     </StackPanel>
-                    <ListBox ItemsSource="{Binding SelectedEvent.Selections}" Background="{StaticResource BlackBG}" Margin="55,134,10,42">
+
+                    <ListBox  ItemsSource="{Binding SelectedEvent.Selections}" Background="{StaticResource BlackBG}" Margin="100,139,100,31">
                         <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Height="55" Orientation="Horizontal">
-                                    <TextBlock Text="{Binding ID}" HorizontalAlignment="Center" FontFamily="Segoe UI Semibold" FontSize="30"  Foreground="LightGray" Width="50"/>
-                                    <TextBlock Text="{Binding Name}"  FontFamily="Segoe UI Semibold" FontSize="30"  Foreground="{StaticResource LightestBlue}" Width="450"/>
-                                    <TextBlock Text="{Binding Odds}" HorizontalAlignment="Center"   FontFamily="Segoe UI Semibold" FontSize="30" Foreground="{StaticResource Orange}"/>
+                            <DataTemplate >
+                                <StackPanel Height="40" Width="600" Orientation="Horizontal">
+                                    <TextBlock Text="{Binding ID}"  FontFamily="Segoe UI Semibold" FontSize="22"  Foreground="LightGray" Width="50"/>
+                                    <TextBlock Text="{Binding Name}"  FontFamily="Segoe UI Semibold" FontSize="22"  Foreground="{StaticResource LightestBlue}" Width="500"/>
+                                    <TextBlock Text="{Binding Odds}"    FontFamily="Segoe UI Semibold" FontSize="22" Foreground="{StaticResource Orange}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,20,0" HorizontalAlignment="Right" >
-                        <TextBlock Height="30" Margin="0,710,0,0" FontSize="14" Foreground="{StaticResource DarkerGray}" Text="Last Downloaded: "
-                               TextAlignment="Right"/>
-                        <TextBlock Height="30" Margin="0,710,0,0" FontSize="14" Foreground="{StaticResource DarkerGray}" Text="{Binding SelectedCoupon.LastDownload}"
-                               TextAlignment="Right"/>
+
+
+
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,-6" HorizontalAlignment="Right" Height="32" VerticalAlignment="Bottom" >
+                        <TextBlock Height="30"  FontSize="12" Foreground="{StaticResource DarkerGray}" Text="Last Downloaded: "
+                               TextAlignment="Right" VerticalAlignment="Bottom"/>
+                        <TextBlock Height="30"  FontSize="12" Foreground="{StaticResource DarkerGray}" Text="{Binding SelectedCoupon.LastDownload}"
+                               TextAlignment="Right" VerticalAlignment="Bottom"/>
                     </StackPanel>
+
 
 
                 </Grid>
 
-                <ComboBox ItemsSource="{Binding OC.Coupons, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedCoupon, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Width="202"/>
-                <ComboBox ItemsSource="{Binding SelectedCoupon.EventGroups, UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay}" SelectedItem="{Binding SelectedEventGroup, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Name" HorizontalAlignment="Left" SelectedIndex="0" Margin="10,99,0,0" VerticalAlignment="Top" Width="202"/>
-                <ComboBox ItemsSource="{Binding SelectedEventGroup.Events, UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedEvent, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" SelectedIndex="0" Margin="10,159,0,0" VerticalAlignment="Top" Width="202"/>
-                <Label Content="Sport Coupon" Foreground="{StaticResource GrayText}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="14"  Height="29" Width="103"/>
-                <Label Content="Event Group" Foreground="{StaticResource GrayText}" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="14"  Height="29" Width="94"/>
-                <Label Content="Event" Foreground="{StaticResource GrayText}" HorizontalAlignment="Left" Margin="10,130,0,0" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="14"  Height="29" Width="64"/>
-                <Label Foreground="{StaticResource GrayText}"  x:Name="Status2" Margin="10,0,741,16" Content="{Binding OC.Status}"  BorderThickness="1" FontSize="10" Height="31" VerticalAlignment="Bottom"/>
+                <ComboBox ItemsSource="{Binding OC.Coupons, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedCoupon, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" Margin="7,39,8,0" VerticalAlignment="Top" Height="26" Grid.ColumnSpan="2"/>
+                <ComboBox ItemsSource="{Binding SelectedCoupon.EventGroups, UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay}" SelectedItem="{Binding SelectedEventGroup, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Name" SelectedIndex="0" Margin="7,99,8,0" VerticalAlignment="Top" Height="26" Grid.ColumnSpan="2"/>
+                <ComboBox ItemsSource="{Binding SelectedEventGroup.Events, UpdateSourceTrigger=PropertyChanged,  Mode=TwoWay}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedEvent, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" Margin="7,159,8,0" VerticalAlignment="Top" Height="26" Grid.ColumnSpan="2"/>
+                <Label Content="Sport Coupon" Foreground="{StaticResource GrayText}" HorizontalAlignment="Left" Margin="7,10,0,0" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="14"  Height="29" Width="103" Grid.ColumnSpan="2"/>
+                <Label Content="Event Group" Foreground="{StaticResource GrayText}" HorizontalAlignment="Left" Margin="7,70,0,0" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="14"  Height="29" Width="94" Grid.ColumnSpan="2"/>
+                <Label Content="Event" Foreground="{StaticResource GrayText}" HorizontalAlignment="Left" Margin="7,130,0,0" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="14"  Height="29" Width="64" Grid.ColumnSpan="2"/>
+                <Label Foreground="{StaticResource GrayText}"  x:Name="Status2" Margin="10,0,2,5" Content="{Binding OC.Status}"  BorderThickness="1" FontSize="10" Height="31" VerticalAlignment="Bottom" Grid.Row="1" Grid.ColumnSpan="3"/>
+                <Label Content="Event Info" Foreground="{StaticResource GrayText}" HorizontalAlignment="Left" Margin="7,190,0,0" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="14"  Height="29" Width="85" Grid.ColumnSpan="2"/>
+                <Grid   Background="{StaticResource BlackBG}" Grid.ColumnSpan="2" Margin="10,219,8,41" Grid.RowSpan="2">
+                    <ListBox  ItemsSource="{Binding SelectedEvent.Results}" Background="{StaticResource BlackBG}" Margin="0,10">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate >
+                                <StackPanel HorizontalAlignment="Center" Width="220" Height="21" Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Place}"  FontFamily="Segoe UI Semibold" FontSize="12"  Foreground="LightGray" Width="44"/>
+                                    <TextBlock Text="{Binding Name}"  FontFamily="Segoe UI Semibold" FontSize="12"  Foreground="{StaticResource GrayText}" Width="130"/>
+                                    <TextBlock Text="{Binding Odds}"    FontFamily="Segoe UI Semibold" FontSize="12" Foreground="{StaticResource Orange}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
 
             </Grid>
         </TabItem>

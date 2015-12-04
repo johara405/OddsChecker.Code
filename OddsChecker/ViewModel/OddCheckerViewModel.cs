@@ -340,14 +340,30 @@ namespace OddsChecker
                 _event.Date = _eventNode.Attributes["date"].InnerText;
                 _event.Time = _eventNode.Attributes["time"].InnerText;
 
-
-
                 // Populate Selections
                 foreach (XmlNode _selectionNode in _eventNode)
                 {
                     ParseSelectionsFromEventNode(_event, _selectionNode);
                 }
-                eventGroup.Events.Add(_event);
+
+                // Parse Results
+                XmlNode _resultsNode = _eventNode.SelectSingleNode("results");
+
+                if (_resultsNode != null)
+                {
+                    foreach (XmlNode _resultNode in _resultsNode)
+                    {
+                        Result _result = new Result();
+                        _result.Name = _resultNode.Attributes["name"].InnerText;
+                        _result.Odds = _resultNode.Attributes["price"].InnerText;
+                        _result.Place = _resultNode.Attributes["place"].InnerText;
+
+                        _event.Results.Add(_result);
+                    }
+                }
+                
+
+               eventGroup.Events.Add(_event);
             }
         }
 

@@ -19,6 +19,14 @@ namespace OddsChecker
         private int id;
         private String name;
         private String date;
+        private ObservableCollection<Result> results = new ObservableCollection<Result>();
+
+        public ObservableCollection<Result> Results
+        {
+            get { return results; }
+            set { results = value; 
+                OnPropertyChanged("Results"); }
+        }
 
         public String Date
         {
