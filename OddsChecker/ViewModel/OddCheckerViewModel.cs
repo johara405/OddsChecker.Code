@@ -269,8 +269,14 @@ namespace OddsChecker
 
         private void UpdateCoupon(SportCoupon coupon, XmlNode eventFile)
         {            
-            coupon.LastModified = DateTime.Parse(eventFile.Attributes["lastmod"].InnerText);  
-            RefreshCouponsView();
+            coupon.LastModified = DateTime.Parse(eventFile.Attributes["lastmod"].InnerText);
+
+            if (SelectedEvent != null && SelectedEventGroup != null && SelectedCoupon != null)
+            {
+                selectedEventGroupid = selectedEventGroup.Id;
+                selectedEventid = SelectedEvent.Id;
+                selectedCouponId = SelectedCoupon.Id;
+            }            
                     
             // Populate EventGroups
             foreach (XmlNode _eventGroupNode in eventFile)
@@ -278,7 +284,7 @@ namespace OddsChecker
                 PopulateEventGroup(coupon, _eventGroupNode);
             }
 
-            
+            RefreshCouponsView();
         }
 
         private void PopulateEventGroup(SportCoupon coupon, XmlNode _eventGroupNode)
@@ -424,6 +430,8 @@ namespace OddsChecker
         }
         private void RefreshCouponsView()
         {
+            
+
             // If the selected Eventgroups / event isn't still downloading
             if (selectedEventid != -1 && selectedEventGroupid != -1)
             {
