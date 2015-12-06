@@ -1,0 +1,38 @@
+﻿<Controls:MetroWindow  x:Class="OddsChecker.LogIn"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        Title="LogIn" Height="435" Width="412">
+
+    <Window.Resources>
+        <SolidColorBrush Color="#161616" x:Key="BlackBG" />
+        <SolidColorBrush Color="#1585b5" x:Key="BlueFG" />
+        <SolidColorBrush Color="#239bcf" x:Key="LighterBlueFG" />
+        <SolidColorBrush Color="#ffa415" x:Key="Orange" />
+        <SolidColorBrush Color="#8e8e8e" x:Key="GrayText" />
+        <SolidColorBrush Color="#46baed" x:Key="LightestBlue" />
+        <SolidColorBrush Color="#474747" x:Key="DarkerGray" />
+
+    </Window.Resources>
+    <Grid Background="Black">
+
+        <Label Content="Username" HorizontalAlignment="Left" Margin="39,112,0,0" VerticalAlignment="Top"/>
+        <Label Content="Password" HorizontalAlignment="Left" Margin="39,154,0,0" VerticalAlignment="Top"/>
+        <TextBox Text="{Binding Username}" HorizontalAlignment="Left" Height="23" Margin="120,113,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="237" TextChanged="TextBox_TextChanged"/>
+        <Button Content="Log In" HorizontalAlignment="Left" Margin="282,195,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+
+
+
+        <Label Content="Server" HorizontalAlignment="Left" Margin="39,255,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Text="{Binding Database.Server }" Height="23" Margin="120,256,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="237"/>
+        <Label Content="Database" HorizontalAlignment="Left" Margin="39,287,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Text="{Binding Database.Database }" Height="23" Margin="120,287,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="237"/>
+        <Label Content="UserID" HorizontalAlignment="Left" Margin="39,318,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Text="{Binding Database.Userid }" Height="23" Margin="120,318,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="237"/>
+        <Label Content="Password" HorizontalAlignment="Left" Margin="39,348,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Text="{Binding Database.Password }" Height="23" Margin="120,349,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="237"/>
+        <TextBox Text="{Binding Password}" HorizontalAlignment="Left" Height="23" Margin="120,154,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="237" TextChanged="TextBox_TextChanged"/>
+        <Label Foreground="{StaticResource LightestBlue}" Content="Odds Checker" HorizontalAlignment="Left" Margin="58,10,0,0" VerticalAlignment="Top" FontFamily="Bebas" FontSize="48"/>
+
+    </Grid>
+   </Controls:MetroWindow>

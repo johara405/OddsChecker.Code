@@ -17,6 +17,18 @@ namespace OddsChecker
     {
         // Instance Variables
         public event PropertyChangedEventHandler PropertyChanged;
+        private String filePath;
+
+        public String FilePath
+        {
+            get { return filePath; }
+            set
+            {
+                filePath = value;
+                OnPropertyChanged("FilePath");
+            }
+        }
+
         private String fileListUrl;
 
         public String FileListUrl
@@ -152,6 +164,7 @@ namespace OddsChecker
         {
             FileListUrl = "https://www.betbyrne.com/events/XmlWithResults.asp?Act=Filelist";
             FileURL = "https://www.betbyrne.com/events/XmlWithResults.asp?EF=";
+            FilePath = @"C:\OddsChecker\";
             Processing = Visibility.Hidden;
             Idle = true;
             Downloading = false;

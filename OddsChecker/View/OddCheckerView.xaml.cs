@@ -43,6 +43,18 @@ namespace OddsChecker
             thread.Start(); 
         }
 
+        private void StopButton_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            od.OfflineMode();
+            var thread = new Thread(new ThreadStart(this.od.StartProcess));
+            thread.Start(); 
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
         
 
        
