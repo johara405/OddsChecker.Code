@@ -78,19 +78,14 @@ namespace OddsChecker
             OC.Idle = false;
             OC.Processing = Visibility.Visible;
             KeepUpdating = true;
-            
-          
+              
             if (OC.OnlineMode)
-            {
-                OC.Coupons = new ObservableCollection<SportCoupon>();
-                GetFilesToDownload();
-
-            }
-                
-            if (!OC.OnlineMode)
-                GetFilesToOpen();
+                GetFilesToDownload();     
+            else 
+                GetLocalFilesToOpen();
 
             UpdateAllCoupons();   
+
             OC.Idle = true;
             OC.Processing = Visibility.Hidden;
             OC.OnlineMode = true;            
@@ -101,7 +96,7 @@ namespace OddsChecker
             OC.OnlineMode = false;
         }
 
-        private void GetFilesToOpen()
+        private void GetLocalFilesToOpen()
         {
             
                 AddStatusUpdate("Starting", "Locating Sports XML files from Local Path");
@@ -137,11 +132,52 @@ namespace OddsChecker
                 OC.PercentPerCoupon = 100 / OC.CouponAmount;
             
 
-        }     
+        }
+
+        private void GetFilesToDownload()
+        {
+            OC.Coupons = new ObservableCollection<SportCoupon>();
+
+            AddStatusUpdate("Starting", "Locating Sports XML files");
+            XmlDocument fileList = new XmlDocument();
+
+            try
+            {
+                fileList.Load(OC.FileListUrl);
+                fileList.Save("C:\\Users\\Jamie\\Documents\\FileList.xml");
+                
+                foreach (XmlNode node in fileList.DocumentElement.SelectSingleNode("/data"))
+                {
+                    if (node.NodeType != XmlNodeType.Comment)
+                    {
+                        String stem = node.Attributes["stem"].InnerText;
+                        App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+                        {
+                            OC.Coupons.Add(new SportCoupon() { Stem = stem, Name = stem + " Awaiting Download..." });
+                        });
+                        AddStatusUpdate("Stem File Located. Empty Coupon created.", stem);
+                    }
+
+                }
+
+                AddStatusUpdate("Finished", OC.Coupons.Count + " Empty Coupons created.");
+
+                OC.CouponAmount = OC.Coupons.Count;
+                OC.CurrentCoupon = 1;
+                OC.PercentPerCoupon = 100 / OC.CouponAmount;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error retreiving File List from Bet Byrne website!" + ex);
+                StopProcess();
+                AddStatusUpdate("Stopped", "Error getting file list from" + OC.FileListUrl);
+
+            }
+
+        }
 
         private void UpdateAllCoupons()
-        {
-           
+        {  
             while (KeepUpdating)
             {
                 UpdateProcessedPercentage(0);
@@ -162,61 +198,18 @@ namespace OddsChecker
                 {
                     KeepUpdating = false;                   
                 }
+
                 if (!OC.UpdateAutomatically)
                 {
                     selectedCouponId = -1;
                     selectedEventGroupid = -1;
                     selectedEventid = -1;
                 }
-                    
 
-                AddStatusUpdate("Complete", "All coupons have finished downloading");
+                AddStatusUpdate("Complete", "All coupons have been checked for updates");
 
               
             }
-        }
-
-        private void GetFilesToDownload()
-        {
-            
-                AddStatusUpdate("Starting", "Locating Sports XML files");
-                XmlDocument fileList = new XmlDocument();
-
-                try
-                {
-                    fileList.Load(OC.FileListUrl);
-                    fileList.Save("C:\\Users\\Jamie\\Documents\\FileList.xml");
-                    foreach (XmlNode node in fileList.DocumentElement.SelectSingleNode("/data"))
-                    {
-                        if (node.NodeType != XmlNodeType.Comment)
-                        {
-                            String stem = node.Attributes["stem"].InnerText;
-                            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
-                            {
-                                OC.Coupons.Add(new SportCoupon() { Stem = stem, Name = stem + " Awaiting Download..." });
-                            }); 
-                            AddStatusUpdate("Stem File Located. Empty Coupon created.", stem);
-                        }
-
-                    }
-
-                    AddStatusUpdate("Finished", OC.Coupons.Count + " Empty Coupons created.");
-
-                    OC.CouponAmount = OC.Coupons.Count;
-                    OC.CurrentCoupon = 1;
-                    OC.PercentPerCoupon = 100 / OC.CouponAmount;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error retreiving File List from Bet Byrne website!" + ex);
-                    StopProcess();
-                    AddStatusUpdate("Stopped", "");
-
-                }
-
-                
-            
-
         }
 
         private void CheckForCouponUpdates(SportCoupon coupon)
@@ -229,58 +222,38 @@ namespace OddsChecker
 
             // if Online mode
 
-            switch (OC.OnlineMode)
-            {
-                case true:
-                    {
+            if (OC.OnlineMode)
                         xmlFileDownloadSuccessfully = DownloadCoupon(coupon, xmlFileDownloadSuccessfully, eventData);
-                    }
-
-                    break;
-                case false:
-                    {
+            else
                         xmlFileDownloadSuccessfully = OpenLocalCoupon(coupon, xmlFileDownloadSuccessfully, eventData);
-                    }
-                    break;
-            }
+                   
+            
 
-                if (xmlFileDownloadSuccessfully && eventData.DocumentElement.SelectSingleNode("/data").HasChildNodes)
-                {
+            if (xmlFileDownloadSuccessfully && eventData.DocumentElement.SelectSingleNode("/data").HasChildNodes)
+            {
                     XmlNode XMLEventFileNode = eventData.DocumentElement.SelectSingleNode("/data/eventfile");
                     DateTime xmlLastUpdated = DateTime.Parse(XMLEventFileNode.Attributes["lastmod"].InnerText);
 
                     if (coupon.LastModified < DateTime.Parse("01/01/1000"))
                     {
-
-                        AddStatusUpdate("First Time Download", coupon.Name);
-                        switch (OC.OnlineMode)
+                        if (OC.OnlineMode)
                         {
-                            case true:
-                                {
-                                    coupon.Id = Int32.Parse(XMLEventFileNode.Attributes["id"].InnerText);
-
-                                    DownloadCopyOfXml(coupon, eventData);
-                                }
-
-                                break;
-                            case false:
-                                {
-                                    coupon.Id = (int)OC.CurrentCoupon - 1;
-                                }
-                                break;
+                            coupon.Id = Int32.Parse(XMLEventFileNode.Attributes["id"].InnerText);
+                            DownloadCopyOfXml(coupon, eventData);
                         }
+                        else
+                            coupon.Id = (int)OC.CurrentCoupon - 1;
+    
                         
                         coupon.Name = XMLEventFileNode.Attributes["name"].InnerText;
                         UpdateCoupon(coupon, XMLEventFileNode);
                     }
                     else
                     {
-                        // THERE IS A RECENT UPDATE
                         if (xmlLastUpdated > coupon.LastModified)
                         {
                             AddStatusUpdate("New prices found, Downloading.", coupon.Name);
                             UpdateCoupon(coupon, XMLEventFileNode);
-
                             DownloadCopyOfXml(coupon, eventData);
                         }
                         else
@@ -292,7 +265,7 @@ namespace OddsChecker
                 }
                 else
                 {
-                    MessageBox.Show("Error");
+                    AddStatusUpdate("Error Downloading coupon or Coupon has no data", coupon.Name);
                 }
           
             
@@ -300,18 +273,26 @@ namespace OddsChecker
 
         private static void DownloadCopyOfXml(SportCoupon coupon, XmlDocument eventData)
         {
-            String path = "C:\\OddsChecker\\" + DateTime.Today.Date.ToString().Replace('/', '-').Substring(0, 10) + "\\";
-            bool exists = System.IO.Directory.Exists(path);
-            if (!exists)
-                System.IO.Directory.CreateDirectory(path);
-
-            eventData.Save(path + coupon.Stem + ".xml");
+            try
+            {
+                String path = "C:\\OddsChecker\\" + DateTime.Today.Date.ToString().Replace('/', '-').Substring(0, 10) + "\\";
+                bool exists = System.IO.Directory.Exists(path);
+                if (!exists)
+                    System.IO.Directory.CreateDirectory(path);
+                eventData.Save(path + coupon.Stem + ".xml");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            
         }
 
         private void UpdateCoupon(SportCoupon coupon, XmlNode eventFile)
         {            
             coupon.LastModified = DateTime.Parse(eventFile.Attributes["lastmod"].InnerText);
 
+            // Take note of the selected Event before recreating all coupons
             if (SelectedEvent != null && SelectedEventGroup != null && SelectedCoupon != null)
             {
                 selectedEventGroupid = selectedEventGroup.Id;
@@ -319,7 +300,7 @@ namespace OddsChecker
                 selectedCouponId = SelectedCoupon.Id;
             }            
                     
-            // Populate EventGroups
+            // Populate each eventgroup on the coupon
             foreach (XmlNode _eventGroupNode in eventFile)
             {
                 PopulateEventGroup(coupon, _eventGroupNode);
@@ -470,7 +451,6 @@ namespace OddsChecker
         }
         private void RefreshCouponsView()
         {
-            
 
             // If the selected Eventgroups / event isn't still downloading
             if (selectedEventid != -1 && selectedEventGroupid != -1)
@@ -478,7 +458,7 @@ namespace OddsChecker
                 switch (OC.OnlineMode)
                 {
                     case true:
-                        {
+                        {      
                             SelectedCoupon = OC.Coupons[selectedCouponId];
                             SelectedEventGroup = SelectedCoupon.EventGroups[selectedEventGroupid];
                             SelectedEvent = SelectedEventGroup.Events[selectedEventid];
@@ -502,7 +482,15 @@ namespace OddsChecker
         {
             App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
             {
-                OC.ProgressPercentage = perc;
+                try
+                {
+                    OC.ProgressPercentage = perc;
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("Error updating progress bar \n" + ex);
+                }
+                
             });
         }
 
@@ -517,5 +505,9 @@ namespace OddsChecker
                 handler(this, new PropertyChangedEventArgs(name));
             }
         }
+
     }
+
+
 }
+

@@ -56,7 +56,7 @@
                             <DataTemplate >
                                 <StackPanel Height="40" Width="600" Orientation="Horizontal">
                                     <TextBlock Text="{Binding ID}"  FontFamily="Segoe UI Semibold" FontSize="22"  Foreground="LightGray" Width="50"/>
-                                    <TextBlock Text="{Binding Name}"  FontFamily="Segoe UI Semibold" FontSize="22"  Foreground="{StaticResource LightestBlue}" Width="500"/>
+                                    <TextBlock Text="{Binding Name}"  FontFamily="Segoe UI Semibold" FontSize="22"  Foreground="{StaticResource LightestBlue}" Width="490"/>
                                     <TextBlock Text="{Binding Odds}"    FontFamily="Segoe UI Semibold" FontSize="22" Foreground="{StaticResource Orange}"/>
                                 </StackPanel>
                             </DataTemplate>

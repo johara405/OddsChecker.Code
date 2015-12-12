@@ -87,6 +87,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\ProcessCommand.cs" />
     <Compile Include="Model\DatabaseConnector.cs" />
     <Compile Include="ViewModel\LogInViewModel.cs" />
     <Compile Include="View\LogIn.xaml.cs">

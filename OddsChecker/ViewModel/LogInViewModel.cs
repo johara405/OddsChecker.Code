@@ -62,28 +62,38 @@ namespace OddsChecker
         //    //int rowAffected = cmd.ExecuteNonQuery();
         //}
 
-        public void CheckLogIn()
+        public void CheckLogIn(bool OnlineMode)
         {
-            if (ConnectToDatabase())
+            if (OnlineMode)
             {
-                SqlCommand cmd = new SqlCommand("SelectAUser", _database.Connection);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Username", Username);
-                cmd.Parameters.AddWithValue("@Password", Password);
-                SqlDataReader reader = cmd.ExecuteReader();
+                if (ConnectToDatabase())
+                {
+                    SqlCommand cmd = new SqlCommand("SelectAUser", _database.Connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Username", Username);
+                    cmd.Parameters.AddWithValue("@Password", Password);
+                    SqlDataReader reader = cmd.ExecuteReader();
 
-                if (reader.HasRows)
-                {                   
-                    MainWindow main = new MainWindow();
-                    main.Show();
-                    caller.Close();
-                    
+                    if (reader.HasRows)
+                    {
+                        MainWindow main = new MainWindow();
+                        main.Show();
+                        caller.Close();
+
+                    }
+                    else
+                        MessageBox.Show("User doesn't exist");
+
+                    CloseDatabaseConnection();
                 }
-                else
-                    MessageBox.Show("User doesn't exist");
-
-                CloseDatabaseConnection();
             }
+            else
+            {
+                MainWindow main = new MainWindow();
+                main.Show();
+                caller.Close();
+            }
+            
            
 
 

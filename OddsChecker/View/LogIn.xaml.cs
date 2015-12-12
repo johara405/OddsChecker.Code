@@ -30,12 +30,13 @@ namespace OddsChecker
 
         public void Button_Click(object sender, RoutedEventArgs e)
         {
-            login.CheckLogIn();
+            login.CheckLogIn(true);
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
 
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            login.CheckLogIn(false);
         }
     }
 }
